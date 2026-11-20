@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Balloon Pop</title>
+<style>
+  body { margin:0; background:#0f172a; color:#e2e8f0; font-family:sans-serif; overflow:hidden; }
+  #score { position:fixed; top:10px; left:10px; font-size:20px; }
+  .balloon {
+    position:absolute; width:50px; height:65px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+    cursor:pointer; bottom:-80px;
+    animation: rise linear forwards;
+  }
+  @keyframes rise { to { transform: translateY(-110vh); } }
+</style>
+</head>
+<body>
+<div id="score">Score: 0</div>
+<script>
+  let score = 0;
+  const scoreEl = document.getElementById('score');
+  const colors = ['#ef4444','#3b82f6','#22c55e','#eab308','#a855f7','#ec4899'];
+  function spawnBalloon() {
+    const b = document.createElement('div');
+    b.className = 'balloon';
+    b.style.left = Math.random() * 90 + 'vw';
+    b.style.background = colors[Math.floor(Math.random()*colors.length)];
+    const duration = 4 + Math.random() * 4;
+    b.style.animationDuration = duration + 's';
+    b.onclick = () => { score++; scoreEl.textContent = 'Score: ' + score; b.remove(); };
+    document.body.appendChild(b);
+    setTimeout(() => b.remove(), duration * 1000);
+  }
+  setInterval(spawnBalloon, 700);
+</script>
+</body>
+</html>
